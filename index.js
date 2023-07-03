@@ -72,6 +72,7 @@ app.post('/videouplaod', protectedRoute, upload.single("video"), async (req, res
             connection.query('insert into posts (video_url,user_id) values (?,?) ', [video_url, userId], function (err, result) {
                 if (err) {
                     res.status(501).json({
+                        console.log(err.message);
                         message: "there is some Error",
                         success: 0
                     })
