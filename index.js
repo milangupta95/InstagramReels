@@ -49,7 +49,7 @@ const uploadFile = async (fileObject) => {
             version: 'v3',
             auth: oauth2client
         })
-        const { data } = await drive.files.create({
+        const response = await drive.files.create({
             media: {
                 mimeType: fileObject.mimeType,
                 body: bufferStream
@@ -59,9 +59,9 @@ const uploadFile = async (fileObject) => {
                 parents: ['1A7OmC8buPeT_kuDl3ne03nG5-mMqeZhA']
             }
         });
-        if (data) {
-            console.log(data);
-            fileN = data.id;
+        if (response) {
+            console.log(response);
+            fileN = response.data.id;
         }
     }catch(err) {
         console.log(err.message);
