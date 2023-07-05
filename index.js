@@ -68,6 +68,7 @@ const uploadFile = async (fileObject) => {
     }
 }
 app.post('/videouplaod', protectedRoute, upload.single("video"), async (req, res) => {
+    console.log("Here in Video Upload");
     try {
         const userId = req.user.id;
         const file = req.file;
