@@ -63,7 +63,6 @@ const uploadFile = async (fileObject) => {
             console.log(data);
             fileN = data.id;
         }
-    }
     }catch(err) {
         console.log(err.message);
     }
