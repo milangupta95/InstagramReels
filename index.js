@@ -41,26 +41,31 @@ app.use('/friend', friendRouter);
 const protectedRoute = require('./middleware/protectedRoute').protectedRoute;
 
 const uploadFile = async (fileObject) => {
-    const bufferStream = new stream.PassThrough();
-    bufferStream.end(fileObject.buffer);
-    fileN = Date.now() + fileObject.originalname;
-    let drive = new google.drive({
-        version: 'v3',
-        auth: oauth2client
-    })
-    const { data } = await drive.files.create({
-        media: {
-            mimeType: fileObject.mimeType,
-            body: bufferStream
-        },
-        requestBody: {
-            name: fileN,
-            parents: ['1A7OmC8buPeT_kuDl3ne03nG5-mMqeZhA']
+    try {
+        const bufferStream = new stream.PassThrough();
+        bufferStream.end(fileObject.buffer);
+        fileN = Date.now() + fileObject.originalname;
+        let drive = new google.drive({
+            version: 'v3',
+            auth: oauth2client
+        })
+        const { data } = await drive.files.create({
+            media: {
+                mimeType: fileObject.mimeType,
+                body: bufferStream
+            },
+            requestBody: {
+                name: fileN,
+                parents: ['1A7OmC8buPeT_kuDl3ne03nG5-mMqeZhA']
+            }
+        });
+        if (data) {
+            console.log(data);
+            fileN = data.id;
         }
-    });
-    if (data) {
-        console.log(data);
-        fileN = data.id;
+    }
+    }catch(err) {
+        console.log(err.message);
     }
 }
 app.post('/videouplaod', protectedRoute, upload.single("video"), async (req, res) => {
